@@ -9,4 +9,6 @@ const getAllUser: Handler = async (req, res, next) => {
 
     res.sendStatus(500);
   }
-}
+};
+
+export default getAllUser;

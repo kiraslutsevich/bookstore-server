@@ -1,10 +1,11 @@
 import { Router } from "express";
 import express from 'express';
-import { createValidatorMiddleware } from '../middlewars/createValidatorMiddleware';
+import signUp from '../controllers/auth/signUp';
+import signIn from '../controllers/auth/signIn';
 
-const userRouter: Router = express.Router();
+const authRouter: Router = express.Router();
 
-userRouter.post('/', createValidatorMiddleware);
-userRouter.get('/', createValidatorMiddleware);
+authRouter.post('/', signUp);
+authRouter.get('/', signIn);
 
-export default userRouter;
+export default authRouter;
