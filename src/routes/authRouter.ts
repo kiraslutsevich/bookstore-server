@@ -5,7 +5,7 @@ import signIn from '../controllers/auth/signIn';
 
 const authRouter: Router = express.Router();
 
-authRouter.post('/', signUp);
-authRouter.get('/', signIn);
+authRouter.post('/signup', signUp);
+authRouter.post('/signin', signIn);
 
 export default authRouter;
