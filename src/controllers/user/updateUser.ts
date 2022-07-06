@@ -1,14 +1,17 @@
-import { Handler } from "express";
+import { Handler } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import createCustomError from '../../utils/error';
 
-const getUser: Handler = async (req, res, next) => {
+const updateUser: Handler = async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    // if (!req.params.id || req.body ==) {
+    //   throw createCustomError(StatusCodes.BAD_REQUEST, 'don`t send data');
+    // }
+    // const userId = req.params.id;
     return res.sendStatus(200);
   } catch (err) {
-    console.log(err);
-
-    res.sendStatus(500);
+    next(err);
   }
 };
 
-export default getUser;
+export default updateUser;

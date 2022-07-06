@@ -1,22 +1,20 @@
-import { Handler } from "express";
-import { request } from "http";
+import { Handler } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import tokenUtils from 'src/utils/tokenUtils';
 
 const userA = {
-  name: "ass",
-  id: "123",
-  email: "fs@mail.ru",
-  password: "fff"
-}
+  name: 'ass',
+  id: '123',
+  email: 'fs@mail.ru',
+  password: 'fff',
+};
 
 const signIn: Handler = async (req, res, next) => {
   try {
-    // (req.body.email === userA.email)
-    // (req.body.password === userA.password)
-    return res.sendStatus(200);
+    const token = tokenUtils.createToken(userA.id);
+    return res.status(StatusCodes.OK).json({ user: userA, token });
   } catch (err) {
-    console.log(err);
-
-    res.sendStatus(500);
+    next(err);
   }
 };
 

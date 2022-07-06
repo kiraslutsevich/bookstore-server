@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
 
-const verifyToken = (token) => {
+const verifyToken = (token: string) => {
   return jwt.verify(token, config.tokenSecretKey);
 };
 
-const createToken = (id) => {
+const createToken = (id: string) => {
   return jwt.sign(id, config.tokenSecretKey);
 };
 

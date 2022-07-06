@@ -1,5 +1,4 @@
-import { Router } from 'express';
-import express from 'express';
+import express, { Router } from 'express';
 import deleteUser from '../controllers/user/deleteUser';
 import updateUser from '../controllers/user/updateUser';
 import getUser from '../controllers/user/getUser';
