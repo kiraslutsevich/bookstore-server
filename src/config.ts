@@ -14,8 +14,8 @@ const parsedEnv = {
 };
 
 const config = {
-  port: parsedEnv.PORT,
+  port: +parsedEnv.PORT,
   tokenSecretKey: parsedEnv.TOKEN_SECRET_KEY,
-}
+};
 
 export default config;

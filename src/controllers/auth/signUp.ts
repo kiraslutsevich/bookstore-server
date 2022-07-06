@@ -11,7 +11,7 @@ const userA = {
 const signUp: Handler = async (req, res, next) => {
   try {
     const token = tokenUtils.createToken(userA.id);
-    return res.status(200).json({ user: userA, token: token });
+    return res.status(200).json({ user: userA, token });
   } catch (err) {
     console.log(err);
 
