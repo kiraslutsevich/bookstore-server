@@ -1,8 +1,7 @@
 import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
-import createCustomError from '../utils/error';
-
 import { NextFunction, Request, Response } from 'express';
+import createCustomError from '../utils/error';
 
 const createValidateMiddleware = (schema: yup.AnyObjectSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -12,12 +11,10 @@ const createValidateMiddleware = (schema: yup.AnyObjectSchema) => {
         query: req.query,
         params: req.params,
       });
-      if () {
-        throw createCustomError(StatusCodes.NOT_FOUND, 'not found this id',);
-      }
       return next();
     } catch (err) {
-      next(err);
+      const customErr = createCustomError(StatusCodes.BAD_REQUEST, 'Validation Error', err.errors);
+      next(customErr);
     }
   };
 };

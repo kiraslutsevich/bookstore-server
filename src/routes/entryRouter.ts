@@ -1,6 +1,6 @@
 import express from 'express';
-import signUp from '../controllers/auth/signUp';
-import signIn from '../controllers/auth/signIn';
+import signUp from '../controllers/entry/signUp';
+import signIn from '../controllers/entry/signIn';
 import createValidateMiddleware from '../middlewars/createValidateMiddleware';
 import { signInSchema, signUpSchema } from '../validation/authSchemas';
 

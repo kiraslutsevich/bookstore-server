@@ -1,9 +1,9 @@
 import { Handler } from 'express';
-// import createCustomError from '../../utils/error';
+import { StatusCodes } from 'http-status-codes';
 
 const getAllUser: Handler = async (req, res, next) => {
   try {
-    return res.sendStatus(200);
+    return res.sendStatus(StatusCodes.OK);
   } catch (err) {
     next(err);
   }

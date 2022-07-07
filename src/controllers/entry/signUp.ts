@@ -1,7 +1,6 @@
 import { Handler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import tokenUtils from '../../utils/tokenUtils';
-import createCustomError from '../../utils/error';
+import { createToken } from '../../utils/tokenUtils';
 
 const userA = {
   name: 'ass',
@@ -12,8 +11,8 @@ const userA = {
 
 const signUp: Handler = async (req, res, next) => {
   try {
-    const token = tokenUtils.createToken(userA.id);
-    return res.status(200).json({ user: userA, token });
+    const token = createToken(userA.id);
+    return res.status(StatusCodes.OK).json({ user: userA, token });
   } catch (err) {
     next(err);
   }

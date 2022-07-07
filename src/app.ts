@@ -1,6 +1,6 @@
 import express from 'express';
 import userRouter from './routes/userRouter';
-import authRouter from './routes/authRouter';
+import authRouter from './routes/entryRouter';
 import errorHandler from './middlewars/errorHandler';
 
 const app = express();
