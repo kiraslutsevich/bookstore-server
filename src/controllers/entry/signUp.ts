@@ -8,16 +8,17 @@ import { User } from '../../db/entity/User';
 
 const signUp: Handler = async (req, res, next) => {
   try {
-    const checkUnique = await userRepository.findOneBy(req.body.email);
-    if (Object.keys(checkUnique).length === 0) {
-      userRepository.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: req.body.password,
-        dob: req.body.dob,
-        email: req.body.email,
-      });
+    const existingUser = await userRepository.findOneBy({ email: req.body.email });
+    if (existingUser) {
+      return 400;
     }
+    userRepository.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password,
+      dob: req.body.dob,
+      email: req.body.email,
+    });
 
     // const token = createToken(user.id);
     // hash(req.body.password);
