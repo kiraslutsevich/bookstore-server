@@ -1,18 +1,27 @@
 import { Handler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { createToken } from '../../utils/tokenUtils';
-
-const userA = {
-  name: 'ass',
-  id: '123',
-  email: 'fs@mail.ru',
-  password: 'fff',
-};
+import { hash } from '../../utils/hashedPassword';
+import { userRepository } from '../../db';
+import createCustomError from '../../utils/error';
+import { User } from '../../db/entity/User';
 
 const signUp: Handler = async (req, res, next) => {
   try {
-    const token = createToken(userA.id);
-    return res.status(StatusCodes.OK).json({ user: userA, token });
+    const checkUnique = await userRepository.findOneBy(req.body.email);
+    if (Object.keys(checkUnique).length === 0) {
+      userRepository.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: req.body.password,
+        dob: req.body.dob,
+        email: req.body.email,
+      });
+    }
+
+    // const token = createToken(user.id);
+    // hash(req.body.password);
+    // return res.status(StatusCodes.OK).json({ user });
   } catch (err) {
     next(err);
   }

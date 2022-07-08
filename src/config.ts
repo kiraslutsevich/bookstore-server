@@ -16,6 +16,7 @@ const parsedEnv = {
 const config = {
   port: +parsedEnv.PORT,
   tokenSecretKey: parsedEnv.TOKEN_SECRET_KEY,
+  salt: parsedEnv.DB_SALT,
 };
 
 export default config;

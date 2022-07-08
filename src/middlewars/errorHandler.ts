@@ -1,11 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { CustomError } from '../utils/error';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const errorHandler = (err: CustomError, req?: Request, res?: Response, next?: NextFunction) => {
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err.customErrorData) {
-    return res.status(err.customErrorData.code).json({ message: err.customErrorData.message });
+    return res.status(err.customErrorData.code).json(err.customErrorData);
   }
 
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'server error' });

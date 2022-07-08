@@ -1,4 +1,12 @@
-import app from './app';
+import { app } from './app';
 import config from './config';
+import errorHandler from './middlewars/errorHandler';
+import { connect } from './db/dataSource';
 
-app.listen(config.port, () => console.log(`server started on port ${config.port}`));
+(async () => {
+  await connect();
+  app.use(errorHandler);
+  app.listen(config.port, () => {
+    return console.log(`Express is listening at http://localhost:${config.port}`);
+  });
+})();

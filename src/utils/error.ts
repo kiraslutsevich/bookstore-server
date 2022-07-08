@@ -6,8 +6,7 @@ export interface CustomError<P = unknown> extends Error {
   },
 }
 
-const createCustomError = <Payload>(code: number, message: string, payload: Payload) => {
-  console.log('createCustomError');
+const createCustomError = <Payload>(code: number, message: string, payload: Payload = null) => {
   const error = new Error(message) as CustomError<Payload>;
 
   error.customErrorData = {
