@@ -10,15 +10,16 @@ const signUp: Handler = async (req, res, next) => {
   try {
     const existingUser = await userRepository.findOneBy({ email: req.body.email });
     if (existingUser) {
-      return 400;
+      throw createCustomError(StatusCodes.BAD_REQUEST, 'email must be unique');
     }
-    userRepository.create({
+    const user = userRepository.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: req.body.password,
       dob: req.body.dob,
       email: req.body.email,
     });
+    await userRepository.save(user);
 
     // const token = createToken(user.id);
     // hash(req.body.password);
