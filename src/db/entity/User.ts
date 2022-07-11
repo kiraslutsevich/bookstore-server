@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BeforeInsert,
+} from 'typeorm';
+import { hasher } from '../../utils/hashedPassword';
 
 @Entity()
 export class User {
@@ -19,19 +27,19 @@ export class User {
   password: string;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: 'varchar',
   })
   firstName: string;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: 'varchar',
   })
   lastName: string;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: 'date',
   })
   dob: string;
@@ -41,4 +49,9 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @BeforeInsert()
+  hashPassword() {
+    this.password = hasher(this.password);
+  }
 }
