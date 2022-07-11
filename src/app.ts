@@ -1,6 +1,7 @@
 import express from 'express';
 import userRouter from './routes/userRouter';
 import authRouter from './routes/entryRouter';
+import type from './type';
 
 export const app = express();
 

@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 const updateUser: Handler = async (req, res, next) => {
   try {
-    return res.sendStatus(StatusCodes.OK);
+    return res.sendStatus(StatusCodes.OK).json();
   } catch (err) {
     next(err);
   }

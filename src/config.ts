@@ -16,9 +16,10 @@ const parsedEnv = {
 const config = {
   port: +parsedEnv.PORT,
   tokenSecretKey: parsedEnv.TOKEN_SECRET_KEY,
+  accessExpires: parsedEnv.ACCESS_EXPIRES,
+  refreshExpires: parsedEnv.REFRESH_EXPIRES,
   salt: parsedEnv.DB_SALT,
   hashAlgorithm: parsedEnv.DB_HASH_ALGORITHM,
-  dbType: parsedEnv.DB_TYPE as 'postgres',
   dbHost: parsedEnv.DB_HOST,
   dbPort: +parsedEnv.DB_PORT,
   dbUserName: parsedEnv.DB_USERNAME,

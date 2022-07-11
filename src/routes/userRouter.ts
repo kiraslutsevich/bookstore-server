@@ -11,10 +11,10 @@ import checkAuth from '../middlewars/checkAuth';
 const userRouter: Router = express.Router();
 userRouter.use(checkAuth);
 
-userRouter.get('/', getAllUsers);
-userRouter.get('/:id', getUser);
-userRouter.delete('/:id', deleteUser);
+userRouter.get('/all', getAllUsers);
+userRouter.get('/', getUser);
+userRouter.delete('/', deleteUser);
 userRouter.patch('/password', createValidateMiddleware(changePasswordSchema), changePassword);
-userRouter.patch('/:id', createValidateMiddleware(updateUserSchema), updateUser);
+userRouter.patch('/', createValidateMiddleware(updateUserSchema), updateUser);
 
 export default userRouter;

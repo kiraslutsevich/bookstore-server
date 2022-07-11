@@ -1,9 +1,15 @@
 import { Handler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import db from '../../db';
 
 const getUser: Handler = async (req, res, next) => {
   try {
-    return res.sendStatus(StatusCodes.OK);
+    const user = await db.user.findOne({
+      where: {
+        id: req.user.id,
+      },
+    });
+    return res.sendStatus(StatusCodes.OK).json(user);
   } catch (err) {
     next(err);
   }
