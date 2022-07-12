@@ -1,6 +1,6 @@
 import { Handler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import createCustomError from '../utils/error';
+import createCustomError from '../utils/createCustomError';
 import { verifyToken } from '../utils/tokenUtils';
 import db from '../db/index';
 
@@ -25,11 +25,11 @@ const checkAuth: Handler = async (req, res, next) => {
     return next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      const customErr = createCustomError(StatusCodes.UNAUTHORIZED, 'TokenExpiredError', { expiredAt: err.expiredAt });
+      const customErr = createCustomError(StatusCodes.UNAUTHORIZED, 'Expired token');
       next(customErr);
     }
     if (err.name === 'JsonWebTokenError') {
-      const customErr = createCustomError(StatusCodes.UNAUTHORIZED, 'JsonWebTokenError', { message: err.message });
+      const customErr = createCustomError(StatusCodes.UNAUTHORIZED, 'Ivalid token');
       next(customErr);
     }
     next(err);

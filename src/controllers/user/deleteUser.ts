@@ -5,7 +5,7 @@ import db from '../../db';
 const deleteUser: Handler = async (req, res, next) => {
   try {
     await db.user.delete(req.user.id);
-    return res.status(StatusCodes.OK).json({ message: `user ${req.user.id} deleted` });
+    return res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (err) {
     next(err);
   }

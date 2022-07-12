@@ -5,7 +5,7 @@ import db from '../../db';
 const updateUser: Handler = async (req, res, next) => {
   try {
     const newData = req.body;
-    const updatedData = db.user.update(req.user.id, newData);
+    const updatedData = await db.user.update(req.user.id, newData);
     return res.status(StatusCodes.OK).json(updatedData);
   } catch (err) {
     next(err);

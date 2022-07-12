@@ -1,9 +1,9 @@
-import { Handler, Request } from 'express';
+import { Handler, Request, RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import { createAccessToken } from '../../utils/tokenUtils';
 import db from '../../db';
-import createCustomError from '../../utils/error';
+import createCustomError from '../../utils/createCustomError';
 
 type ReqBody = {
   firstName: string,
@@ -14,6 +14,8 @@ type ReqBody = {
 }
 
 type ExtendedRequest = Request<unknown, unknown, ReqBody>
+
+// type ControllerType = RequestHandler<unknown,{usner:UserEntity, token:strig}, ReqBody, unknown>
 
 const signUp: Handler = async (req: ExtendedRequest, res, next) => {
   try {

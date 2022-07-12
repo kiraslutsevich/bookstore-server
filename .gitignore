@@ -1,8 +1,8 @@
+.env
+.eslintrc.js
 .idea/
 .vscode/
 node_modules/
 build/
 tmp/
 temp/
-.env
-.eslintrc

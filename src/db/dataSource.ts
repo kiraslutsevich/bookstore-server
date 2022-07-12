@@ -3,14 +3,14 @@ import { DataSource } from 'typeorm';
 import config from '../config';
 
 export const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: config.dbHost,
-  port: config.dbPort,
-  username: config.dbUserName,
-  password: config.dbPassword,
-  database: config.dbDatabase,
+  type: config.db.type,
+  host: config.db.host,
+  port: config.db.port,
+  username: config.db.userName,
+  password: config.db.password,
+  database: config.db.database,
   synchronize: false,
-  logging: false,
+  logging: config.db.logging,
   entities: [`${__dirname}/entity/*`],
   migrations: [`${__dirname}/migrations/*`],
   subscribers: [],

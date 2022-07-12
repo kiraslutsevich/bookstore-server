@@ -18,13 +18,17 @@ const config = {
   tokenSecretKey: parsedEnv.TOKEN_SECRET_KEY,
   accessExpires: parsedEnv.ACCESS_EXPIRES,
   refreshExpires: parsedEnv.REFRESH_EXPIRES,
-  salt: parsedEnv.DB_SALT,
-  hashAlgorithm: parsedEnv.DB_HASH_ALGORITHM,
-  dbHost: parsedEnv.DB_HOST,
-  dbPort: +parsedEnv.DB_PORT,
-  dbUserName: parsedEnv.DB_USERNAME,
-  dbPassword: parsedEnv.DB_PASSWORD,
-  dbDatabase: parsedEnv.DB_DATABASE,
+  salt: parsedEnv.SALT,
+  hashAlgorithm: parsedEnv.HASH_ALGORITHM,
+  db: {
+    type: parsedEnv.DB_TYPE as 'postgres',
+    host: parsedEnv.DB_HOST,
+    port: +parsedEnv.DB_PORT,
+    userName: parsedEnv.DB_USERNAME,
+    password: parsedEnv.DB_PASSWORD,
+    database: parsedEnv.DB_DATABASE,
+    logging: JSON.parse(parsedEnv.DB_LOGGING),
+  },
 };
 
 export default config;

@@ -1,7 +1,7 @@
 import { Handler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { verify, hasher } from '../../utils/hashedPassword';
-import createCustomError from '../../utils/error';
+import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
 
 const changePassword: Handler = async (req, res, next) => {
@@ -9,7 +9,7 @@ const changePassword: Handler = async (req, res, next) => {
     if (!verify(req.body.password, req.user.password)) {
       throw createCustomError(StatusCodes.BAD_REQUEST, 'invalid password');
     }
-    await db.user.update(req.user.id, { password: hasher(req.body.newPassword) });
+    await db.user.update(req.user.id, { password: hasher(req.body.password) });
     return res.status(StatusCodes.OK).json({ message: 'password changed successfully' });
   } catch (err) {
     next(err);
