@@ -9,7 +9,7 @@ const getUser: Handler = async (req, res, next) => {
         id: req.user.id,
       },
     });
-    return res.sendStatus(StatusCodes.OK).json(user);
+    return res.status(StatusCodes.OK).json(user);
   } catch (err) {
     next(err);
   }

@@ -4,15 +4,8 @@ import db from '../../db';
 
 const getAllUser: Handler = async (req, res, next) => {
   try {
-    const users = await db.user.find({
-      select: {
-        firstName: true,
-        lastName: true,
-        dob: true,
-        email: true,
-      },
-    });
-    return res.sendStatus(StatusCodes.OK).json(users);
+    const users = await db.user.find();
+    return res.status(StatusCodes.OK).json({ users });
   } catch (err) {
     next(err);
   }
