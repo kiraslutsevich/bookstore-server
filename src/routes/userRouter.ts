@@ -12,9 +12,9 @@ const userRouter: Router = express.Router();
 userRouter.use(checkAuth);
 
 userRouter.get('/all', getAllUsers);
-userRouter.get('/id', getUser);
-userRouter.delete('/id', deleteUser);
 userRouter.patch('/password', createValidateMiddleware(changePasswordSchema), changePassword);
-userRouter.patch('/id', createValidateMiddleware(updateUserSchema), updateUser);
+userRouter.get('/:id', getUser);
+userRouter.delete('/:id', deleteUser);
+userRouter.patch('/:id', createValidateMiddleware(updateUserSchema), updateUser);
 
 export default userRouter;

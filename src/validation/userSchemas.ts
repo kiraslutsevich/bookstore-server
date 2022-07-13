@@ -11,7 +11,7 @@ export const updateUserSchema = {
 
 export const changePasswordSchema = {
   body: {
+    oldPassword: yup.string().required(),
     password: yup.string().required(),
-    newPassword: yup.string().required(),
   },
 };

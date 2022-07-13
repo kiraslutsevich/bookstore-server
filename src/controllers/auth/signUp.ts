@@ -1,4 +1,4 @@
-import { Handler, Request, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import { createAccessToken } from '../../utils/tokenUtils';
@@ -6,18 +6,21 @@ import db from '../../db';
 import createCustomError from '../../utils/createCustomError';
 
 type ReqBody = {
-  firstName: string,
-  email: string,
-  lastName: string,
-  dob: string,
-  password: string,
+  firstName: string;
+  email: string;
+  lastName: string;
+  dob: string;
+  password: string;
 }
 
-type ExtendedRequest = Request<unknown, unknown, ReqBody>
+type ResBody = {
+  user: object;
+  token: string;
+}
 
-// type ControllerType = RequestHandler<unknown,{usner:UserEntity, token:strig}, ReqBody, unknown>
+type ControllerType = RequestHandler<Record<string, never>, ResBody, ReqBody, Record<string, never>>
 
-const signUp: Handler = async (req: ExtendedRequest, res, next) => {
+const signUp: ControllerType = async (req, res, next) => {
   try {
     const existingUser = await db.user.findOneBy({ email: req.body.email });
     if (existingUser) {
@@ -29,7 +32,7 @@ const signUp: Handler = async (req: ExtendedRequest, res, next) => {
     const userId = user.id;
 
     const token = createAccessToken(userId);
-
+    delete user.password;
     return res.status(StatusCodes.OK).json({ user, token });
   } catch (err) {
     next(err);

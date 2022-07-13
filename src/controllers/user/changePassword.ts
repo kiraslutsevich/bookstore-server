@@ -1,15 +1,35 @@
-import { Handler } from 'express';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { verify, hasher } from '../../utils/hashedPassword';
 import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
 
-const changePassword: Handler = async (req, res, next) => {
+type ReqBody = {
+  oldPassword: string;
+  password: string;
+}
+
+type ResBody = {
+  message: string;
+}
+
+type ControllerType = RequestHandler<Record<string, never>, ResBody, ReqBody, Record<string, never>>
+
+const changePassword: ControllerType = async (req, res, next) => {
   try {
-    if (!verify(req.body.password, req.user.password)) {
+    const user = await db.user
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.id = :id', { id: req.user.id })
+      .getOne();
+
+    if (!verify(req.body.oldPassword, user.password)) {
       throw createCustomError(StatusCodes.BAD_REQUEST, 'invalid password');
     }
-    await db.user.update(req.user.id, { password: hasher(req.body.password) });
+    const updateResult = await db.user.update(req.user.id, { password: hasher(req.body.password) });
+    if (!updateResult.affected) {
+      throw createCustomError(StatusCodes.NOT_FOUND, 'updation did not happen');
+    }
     return res.status(StatusCodes.OK).json({ message: 'password changed successfully' });
   } catch (err) {
     next(err);

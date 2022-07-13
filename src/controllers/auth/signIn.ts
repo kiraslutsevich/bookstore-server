@@ -1,11 +1,22 @@
-import { Handler } from 'express';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { createAccessToken } from '../../utils/tokenUtils';
 import db from '../../db';
 import createCustomError from '../../utils/createCustomError';
 import { verify } from '../../utils/hashedPassword';
 
-const signIn: Handler = async (req, res, next) => {
+type ReqBody = {
+  email: string,
+  password: string,
+}
+
+type ResBody = {
+  user: object;
+  token: string;
+}
+
+type ControllerType = RequestHandler<Record<string, never>, ResBody, ReqBody, Record<string, never>>
+const signIn: ControllerType = async (req, res, next) => {
   try {
     const user = await db.user
       .createQueryBuilder('user')
