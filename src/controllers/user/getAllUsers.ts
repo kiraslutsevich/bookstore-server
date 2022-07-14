@@ -37,14 +37,20 @@ const getAllUser: ControllerType = async (req, res, next) => {
     const offset = (Number(req.query.page) - 1) * take || 0;
     const skip = offset || 0;
     // eslint-disable-next-line max-len
-    const dob = Between(new Date(req.query.minDob) || new Date(0), new Date(req.query.maxDob) || new Date());
-    const where = (req.query.search)
-      ? [
+    const dob = Between(req.query.minDob || new Date(0), req.query.maxDob || new Date());
+
+    let where;
+    if (req.query.search) {
+      where = [
         { firstName: ILike(`%${req.query.search}%`), dob },
         { lastName: ILike(`%${req.query.search}%`), dob },
         { email: ILike(`%${req.query.search}%`), dob },
-      ]
-      : { dob };
+      ];
+    } else {
+      where = {
+        dob,
+      };
+    }
 
     const [users, totalCount] = await db.user.findAndCount({
       select,
