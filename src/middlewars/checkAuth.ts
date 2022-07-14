@@ -19,7 +19,7 @@ const checkAuth: Handler = async (req, res, next) => {
       },
     });
     if (!user) {
-      throw createCustomError(StatusCodes.UNAUTHORIZED, 'invalid authorization');
+      throw createCustomError(StatusCodes.FORBIDDEN, 'invalid authorization');
     }
     req.user = user;
     return next();

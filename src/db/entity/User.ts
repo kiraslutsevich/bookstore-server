@@ -43,7 +43,7 @@ export class User {
     nullable: true,
     type: 'date',
   })
-  dob: string;
+  dob: Date;
 
   @CreateDateColumn()
   createdAt: Date;

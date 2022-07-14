@@ -18,7 +18,7 @@ const deleteUser: ControllerType = async (req, res, next) => {
   try {
     const deleteResult = await db.user.delete(req.params.id);
     if (!deleteResult.affected) {
-      throw createCustomError(StatusCodes.NOT_FOUND, 'deletion did not happen');
+      throw createCustomError(StatusCodes.NOT_FOUND, 'user not found');
     }
     return res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (err) {

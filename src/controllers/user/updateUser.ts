@@ -8,7 +8,6 @@ type ReqBody = {
   email?: string;
   lastName?: string;
   dob?: string;
-  password?: string;
 }
 
 type ResBody = {
@@ -23,11 +22,7 @@ type ControllerType = RequestHandler<ReqParams, ResBody, ReqBody, Record<string,
 
 const updateUser: ControllerType = async (req, res, next) => {
   try {
-    const newData = req.body;
-    if (newData.password) {
-      delete newData.password;
-    }
-    const updateResult = await db.user.update(req.user.id, newData);
+    const updateResult = await db.user.update(req.user.id, req.body);
     if (!updateResult.affected) {
       throw createCustomError(StatusCodes.NOT_FOUND, 'updation did not happen');
     }

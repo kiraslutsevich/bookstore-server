@@ -13,6 +13,6 @@ export const signUpSchema = {
     lastName: yup.string().min(3).max(30),
     email: yup.string().email(),
     password: yup.string().min(6).max(20),
-    dob: yup.date(),
+    dob: yup.string(),
   },
 };

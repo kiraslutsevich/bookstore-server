@@ -20,7 +20,7 @@ const getUser: ControllerType = async (req, res, next) => {
   try {
     const user = await db.user.findOne({
       where: {
-        id: req.user.id,
+        id: +req.params.id,
       },
     });
     if (!user) {

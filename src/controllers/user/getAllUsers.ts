@@ -1,58 +1,63 @@
-// import { RequestHandler } from 'express';
-// import * as typeorm from 'typeorm';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Between, ILike, LessThan, MoreThan } from 'typeorm';
+import { Between, ILike } from 'typeorm';
+import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
-// import { User as UserEntity } from '../../db/entity/User';
+import { User } from '../../db/entity/User';
 
+type ReqParams = {
+  id: string;
+}
 
-// type ReqParams = {
-//   id: string;
-// }
+type ReqQuery = {
+  column: string;
+  order?: { [key: string]: string };
+  take?: number;
+  page?: number;
+  minDob?: string;
+  maxDob?: string;
+  search?: string;
+}
 
-// type ResBody = {
-//   message: string;
-// }
+type ResBody = {
+  users: User[];
+  totalCount: number;
+}
 
-// // eslint-disable-next-line max-len
-// type ControllerType = RequestHandler<ReqParams, ResBody, Record<string, never>, Record<string, never>>
+// eslint-disable-next-line max-len
+type ControllerType = RequestHandler<ReqParams, ResBody, Record<string, never>, ReqQuery>
 
-const getAllUser = async (req, res, next) => {
+const getAllUser: ControllerType = async (req, res, next) => {
   try {
-    // const orderBy = (req.query.column || 'id') as keyof typeorm.DeepPartial<UserEntity>;
-    // const order = (req.query.order || 'ASC');
-    const select = ({ [req.query.select]: true } ||
-      { firstName: true, lastName: true, email: true, id: true });
-
+    const select = ({ firstName: true, lastName: true, email: true, id: true, dob: true });
     const order = {
       [req.query.column]: req.query.order,
     };
-    const skip = req.query.skip || 0;
-    const take = req.query.take || 5;
+    const take = req.query.take || 20;
+    const offset = (Number(req.query.page) - 1) * take || 0;
+    const skip = offset || 0;
+    // eslint-disable-next-line max-len
+    const dob = Between(new Date(req.query.minDob) || new Date(0), new Date(req.query.maxDob) || new Date());
+    const where = (req.query.search)
+      ? [
+        { firstName: ILike(`%${req.query.search}%`), dob },
+        { lastName: ILike(`%${req.query.search}%`), dob },
+        { email: ILike(`%${req.query.search}%`), dob },
+      ]
+      : { dob };
 
-    let dob;
-    if (req.query.minDob) {
-      dob = MoreThan(req.query.minDob);
-    }
-    if (req.query.maxDob) {
-      dob = LessThan(req.query.maxDob);
-    }
-    if (req.query.minDob && req.query.maxDob) {
-      dob = Between(req.query.minDob, req.query.maxDob);
-    }
-
-    const users = await db.user.find({
+    const [users, totalCount] = await db.user.findAndCount({
       select,
-      where: {
-        [req.query.where]: ILike(`%${req.query.search}%`),
-        dob,
-      },
+      where,
       order,
       skip,
       take,
     });
 
-    return res.status(StatusCodes.OK).json({ users });
+    if (!totalCount) {
+      createCustomError(StatusCodes.NOT_FOUND, 'users not found');
+    }
+    return res.status(StatusCodes.OK).json({ users, totalCount });
   } catch (err) {
     next(err);
   }
