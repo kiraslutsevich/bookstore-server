@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Between, ILike } from 'typeorm';
-import createCustomError from '../../utils/createCustomError';
+import { Between, FindManyOptions, ILike, Any } from 'typeorm';
 import db from '../../db';
 import { User } from '../../db/entity/User';
 
@@ -10,9 +9,9 @@ type ReqParams = {
 }
 
 type ReqQuery = {
-  column: string;
-  order?: { [key: string]: string };
-  take?: number;
+  column?: string;
+  order?: 'ASC' | 'DESC';
+  perPage?: number;
   page?: number;
   minDob?: string;
   maxDob?: string;
@@ -29,17 +28,19 @@ type ControllerType = RequestHandler<ReqParams, ResBody, Record<string, never>, 
 
 const getAllUser: ControllerType = async (req, res, next) => {
   try {
-    const select = ({ firstName: true, lastName: true, email: true, id: true, dob: true });
     const order = {
       [req.query.column]: req.query.order,
     };
-    const take = req.query.take || 20;
-    const offset = (Number(req.query.page) - 1) * take || 0;
+    const take = req.query.perPage || null;
+    const offset = (req.query.page) ? (+req.query.page - 1) * take : null;
     const skip = offset || 0;
-    // eslint-disable-next-line max-len
-    const dob = Between(req.query.minDob || new Date(0), req.query.maxDob || new Date());
+    const dob = Between(
+      new Date(req.query.minDob || 0),
+      new Date(req.query.maxDob),
+    );
 
-    let where;
+    let where: FindManyOptions<User>['where'];
+
     if (req.query.search) {
       where = [
         { firstName: ILike(`%${req.query.search}%`), dob },
@@ -53,16 +54,12 @@ const getAllUser: ControllerType = async (req, res, next) => {
     }
 
     const [users, totalCount] = await db.user.findAndCount({
-      select,
       where,
       order,
       skip,
       take,
     });
 
-    if (!totalCount) {
-      createCustomError(StatusCodes.NOT_FOUND, 'users not found');
-    }
     return res.status(StatusCodes.OK).json({ users, totalCount });
   } catch (err) {
     next(err);

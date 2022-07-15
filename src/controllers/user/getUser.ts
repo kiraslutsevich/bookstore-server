@@ -10,11 +10,12 @@ type ReqParams = {
 
 type ResBody = User;
 
-type ControllerType =
-  RequestHandler<ReqParams,
-  ResBody,
-  Record<string, never>,
-  Record<string, never>>
+type ControllerType = RequestHandler<
+ReqParams,
+ResBody,
+Record<string, never>,
+Record<string, never>
+>
 
 const getUser: ControllerType = async (req, res, next) => {
   try {

@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { createAccessToken } from '../../utils/tokenUtils';
+import type { RecNever } from '../../utils/types';
 import db from '../../db';
 import createCustomError from '../../utils/createCustomError';
 import { User } from '../../db/entity/User';
@@ -18,7 +19,7 @@ type ResBody = {
   token: string;
 }
 
-type ControllerType = RequestHandler<Record<string, never>, ResBody, ReqBody, Record<string, never>>
+type ControllerType = RequestHandler<RecNever, ResBody, ReqBody, RecNever>
 
 const signUp: ControllerType = async (req, res, next) => {
   try {
@@ -26,22 +27,17 @@ const signUp: ControllerType = async (req, res, next) => {
     if (existingUser) {
       throw createCustomError(StatusCodes.BAD_REQUEST, 'email must be unique');
     }
-    const dob = new Date(req.body.dob);
 
     const userData = req.body;
-    userData.dob = dob;
+    userData.dob = new Date(req.body.dob);
 
     let user = db.user.create(userData);
     user = await db.user.save(user);
-    const userId = user.id;
 
-    const token = createAccessToken(userId);
+    const token = createAccessToken(user.id);
     delete user.password;
     return res.status(StatusCodes.OK).json({ user, token });
   } catch (err) {
-    if (err.driverError.routine === 'DateTimeParseError') {
-      next(createCustomError(StatusCodes.BAD_REQUEST, 'wrong format of date', { payload: err.message }));
-    }
     next(err);
   }
 };

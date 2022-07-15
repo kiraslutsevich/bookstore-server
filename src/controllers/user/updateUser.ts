@@ -24,7 +24,7 @@ const updateUser: ControllerType = async (req, res, next) => {
   try {
     const updateResult = await db.user.update(req.user.id, req.body);
     if (!updateResult.affected) {
-      throw createCustomError(StatusCodes.NOT_FOUND, 'updation did not happen');
+      throw createCustomError(StatusCodes.NOT_FOUND, 'user not found');
     }
     return res.status(StatusCodes.OK).json({ message: 'successfully modified' });
   } catch (err) {

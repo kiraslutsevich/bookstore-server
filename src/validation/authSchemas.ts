@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import validateDateTest from '../utils/validationDateTest';
 
 export const signInSchema = {
   body: {
@@ -13,6 +14,6 @@ export const signUpSchema = {
     lastName: yup.string().min(3).max(30),
     email: yup.string().email(),
     password: yup.string().min(6).max(20),
-    dob: yup.string(),
+    dob: yup.string().test(validateDateTest),
   },
 };
