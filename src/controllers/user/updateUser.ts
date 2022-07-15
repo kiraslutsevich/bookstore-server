@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
+import { User } from '../../db/entity/User';
 
 type ReqBody = {
   firstName?: string;
@@ -11,7 +12,8 @@ type ReqBody = {
 }
 
 type ResBody = {
-  message: string
+  message: string;
+  user: User;
 }
 
 type ReqParams = {
@@ -26,7 +28,11 @@ const updateUser: ControllerType = async (req, res, next) => {
     if (!updateResult.affected) {
       throw createCustomError(StatusCodes.NOT_FOUND, 'user not found');
     }
-    return res.status(StatusCodes.OK).json({ message: 'successfully modified' });
+    const user = await db.user.findOne({
+      where: { id: +req.user.id },
+    });
+
+    return res.status(StatusCodes.OK).json({ message: 'successfully modified', user });
   } catch (err) {
     next(err);
   }
