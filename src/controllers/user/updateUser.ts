@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import type { EmptyObject } from '../../utils/types';
 import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
 import { User } from '../../db/entity/User';
@@ -20,7 +21,7 @@ type ReqParams = {
   id: string;
 }
 
-type ControllerType = RequestHandler<ReqParams, ResBody, ReqBody, Record<string, never>>
+type ControllerType = RequestHandler<ReqParams, ResBody, ReqBody, EmptyObject>
 
 const updateUser: ControllerType = async (req, res, next) => {
   try {

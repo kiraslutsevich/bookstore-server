@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { verify, hasher } from '../../utils/hashedPassword';
+import type { EmptyObject } from '../../utils/types';
 import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
 
@@ -13,7 +14,7 @@ type ResBody = {
   message: string;
 }
 
-type ControllerType = RequestHandler<Record<string, never>, ResBody, ReqBody, Record<string, never>>
+type ControllerType = RequestHandler<EmptyObject, ResBody, ReqBody, EmptyObject>
 
 const changePassword: ControllerType = async (req, res, next) => {
   try {

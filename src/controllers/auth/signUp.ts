@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { createAccessToken } from '../../utils/tokenUtils';
-import type { RecNever } from '../../utils/types';
+import type { EmptyObject } from '../../utils/types';
 import db from '../../db';
 import createCustomError from '../../utils/createCustomError';
 import { User } from '../../db/entity/User';
@@ -19,7 +19,7 @@ type ResBody = {
   token: string;
 }
 
-type ControllerType = RequestHandler<RecNever, ResBody, ReqBody, RecNever>
+type ControllerType = RequestHandler<EmptyObject, ResBody, ReqBody, EmptyObject>
 
 const signUp: ControllerType = async (req, res, next) => {
   try {

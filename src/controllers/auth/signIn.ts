@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { createAccessToken } from '../../utils/tokenUtils';
-import type { RecNever } from '../../utils/types';
+import type { EmptyObject } from '../../utils/types';
 import db from '../../db';
 import createCustomError from '../../utils/createCustomError';
 import { verify } from '../../utils/hashedPassword';
@@ -14,7 +14,7 @@ type ResBody = {
   user: object;
   token: string;
 }
-type ControllerType = RequestHandler<RecNever, ResBody, ReqBody, RecNever>
+type ControllerType = RequestHandler<EmptyObject, ResBody, ReqBody, EmptyObject>
 
 const signIn: ControllerType = async (req, res, next) => {
   try {

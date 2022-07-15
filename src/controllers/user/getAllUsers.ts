@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Between, FindManyOptions, ILike, Any } from 'typeorm';
+import { Between, FindManyOptions, ILike } from 'typeorm';
+import type { EmptyObject } from '../../utils/types';
 import db from '../../db';
 import { User } from '../../db/entity/User';
 
@@ -24,7 +25,7 @@ type ResBody = {
 }
 
 // eslint-disable-next-line max-len
-type ControllerType = RequestHandler<ReqParams, ResBody, Record<string, never>, ReqQuery>
+type ControllerType = RequestHandler<ReqParams, ResBody, EmptyObject, ReqQuery>
 
 const getAllUser: ControllerType = async (req, res, next) => {
   try {
@@ -32,8 +33,8 @@ const getAllUser: ControllerType = async (req, res, next) => {
       [req.query.column]: req.query.order,
     };
     const take = req.query.perPage || null;
-    const offset = (req.query.page) ? (+req.query.page - 1) * take : null;
-    const skip = offset || 0;
+    const page = +req.query.page || 1;
+    const skip = take ? (page - 1) * take : null;
     const dob = Between(
       new Date(req.query.minDob || 0),
       new Date(req.query.maxDob),
@@ -42,15 +43,14 @@ const getAllUser: ControllerType = async (req, res, next) => {
     let where: FindManyOptions<User>['where'];
 
     if (req.query.search) {
+      const searchQuery = ILike(`%${req.query.search}%`);
       where = [
-        { firstName: ILike(`%${req.query.search}%`), dob },
-        { lastName: ILike(`%${req.query.search}%`), dob },
-        { email: ILike(`%${req.query.search}%`), dob },
+        { firstName: searchQuery, dob },
+        { lastName: searchQuery, dob },
+        { email: searchQuery, dob },
       ];
     } else {
-      where = {
-        dob,
-      };
+      where = { dob };
     }
 
     const [users, totalCount] = await db.user.findAndCount({

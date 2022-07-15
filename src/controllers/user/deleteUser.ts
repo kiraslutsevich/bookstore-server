@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import type { EmptyObject } from '../../utils/types';
 import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
 
@@ -12,7 +13,7 @@ type ResBody = {
 }
 
 // eslint-disable-next-line max-len
-type ControllerType = RequestHandler<ReqParams, ResBody, Record<string, never>, Record<string, never>>
+type ControllerType = RequestHandler<ReqParams, ResBody, EmptyObject, EmptyObject>
 
 const deleteUser: ControllerType = async (req, res, next) => {
   try {

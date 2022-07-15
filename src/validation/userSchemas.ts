@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import validateDateTest from '../utils/validationDateTest';
+import validationHelpers from '../utils/validationHelpers';
 
 export const updateUserSchema = {
   params: {
@@ -11,7 +11,7 @@ export const updateUserSchema = {
     firstName: yup.string().min(3).max(30),
     lastName: yup.string().min(3).max(30),
     email: yup.string().email().required(),
-    dob: yup.string().test(validateDateTest),
+    dob: yup.string().test(validationHelpers.checkIsStringDate),
   },
 };
 
