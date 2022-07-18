@@ -1,31 +1,26 @@
-import * as yup from 'yup';
-import validationHelpers from '../utils/validationHelpers';
+import { requirements } from './constants';
 
 export const updateUserSchema = {
   params: {
-    id: yup.string()
-      .required()
-      .matches(/^[0-9]+$/, 'Must be only digits'),
+    id: requirements.id,
   },
   body: {
-    firstName: yup.string().min(3).max(30),
-    lastName: yup.string().min(3).max(30),
-    email: yup.string().email().required(),
-    dob: yup.string().test(validationHelpers.checkIsStringDate),
+    firstName: requirements.name,
+    lastName: requirements.name,
+    email: requirements.email,
+    dob: requirements.dob,
   },
 };
 
 export const changePasswordSchema = {
   body: {
-    oldPassword: yup.string().required(),
-    password: yup.string().required(),
+    oldPassword: requirements.password,
+    password: requirements.password,
   },
 };
 
 export const paramsSchema = {
   params: {
-    id: yup.string()
-      .required()
-      .matches(/^[0-9]+$/, 'Must be only digits'),
+    id: requirements.id,
   },
 };
