@@ -1,18 +1,12 @@
 import * as yup from 'yup';
 import validationHelpers from '../utils/validationHelpers';
 
-const withoutSpecialChars = /^[^-() /]*$/;
-const containsLetters = /^.*[a-zA-Z]+.*$/;
-const minimum6Chars = /^.{6,}$/;
-const withoutSpaces = /^[\S]$/;
+const reliable = /^[a-z0-9]{6,}$/i;
 const onlyDigits = /^[0-9]+$/;
 
 export const requirements = {
   password: yup.string().required()
-    .matches(withoutSpecialChars)
-    .matches(containsLetters)
-    .matches(minimum6Chars)
-    .matches(withoutSpaces),
+    .matches(reliable),
   id: yup.string()
     .required()
     .matches(onlyDigits, 'Must be only digits'),

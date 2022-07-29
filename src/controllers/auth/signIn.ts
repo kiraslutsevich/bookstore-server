@@ -25,7 +25,7 @@ const signIn: ControllerType = async (req, res, next) => {
       .getOne();
 
     if (!user) {
-      throw createCustomError(StatusCodes.NOT_FOUND, 'user not found');
+      throw createCustomError(StatusCodes.NOT_FOUND, 'User not found', { field: 'email' });
     }
     if (!verify(req.body.password, user.password)) {
       throw createCustomError(StatusCodes.BAD_REQUEST, 'Validation Error', {
@@ -36,7 +36,6 @@ const signIn: ControllerType = async (req, res, next) => {
       });
     }
     const token = createAccessToken(user.id);
-
     delete user.password;
     return res.status(StatusCodes.OK).json({ token, user });
   } catch (err) {

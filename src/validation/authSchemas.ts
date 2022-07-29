@@ -9,10 +9,10 @@ export const signInSchema = {
 
 export const signUpSchema = {
   body: {
-    firstName: requirements.name,
-    lastName: requirements.name,
+    // firstName: requirements.name,
+    // lastName: requirements.name,
     email: requirements.email,
     password: requirements.password,
-    dob: requirements.dob,
+    // dob: requirements.dob,
   },
 };

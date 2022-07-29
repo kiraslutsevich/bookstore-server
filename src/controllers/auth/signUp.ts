@@ -7,10 +7,10 @@ import createCustomError from '../../utils/createCustomError';
 import { User } from '../../db/entity/User';
 
 type ReqBody = {
-  firstName: string;
+  firstName?: string;
   email: string;
-  lastName: string;
-  dob: string | Date;
+  lastName?: string;
+  dob?: string | Date;
   password: string;
 }
 
@@ -25,11 +25,11 @@ const signUp: ControllerType = async (req, res, next) => {
   try {
     const existingUser = await db.user.findOneBy({ email: req.body.email });
     if (existingUser) {
-      throw createCustomError(StatusCodes.BAD_REQUEST, 'email must be unique');
+      throw createCustomError(StatusCodes.BAD_REQUEST, 'Email must be unique', { field: 'email' });
     }
 
     const userData = req.body;
-    userData.dob = new Date(req.body.dob);
+    // userData.dob = new Date(req.body.dob);
 
     let user = db.user.create(userData);
     user = await db.user.save(user);
