@@ -8,7 +8,7 @@ export const updateUserSchema = {
     firstName: requirements.name,
     lastName: requirements.name,
     email: requirements.email,
-    dob: requirements.dob,
+    // dob: requirements.dob,
   },
 };
 
