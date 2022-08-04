@@ -36,18 +36,17 @@ const createValidateMiddleware = (schema: Schema) => {
 
       return next();
     } catch (err) {
-      console.log(err)
       if (err instanceof yup.ValidationError) {
         const payload: ValidationData[] = err.inner.map((elem) => {
           const payloadData: ValidationData = {
-            type: elem.type,
+            type: elem.type as string,
           };
           if (elem.type === 'noUnknown') {
-            payloadData.path = elem.path;
-            payloadData.field = elem.params.unknown as string;
+            payloadData.path = elem.path as string;
+            payloadData.field = elem.params?.unknown as string;
             payloadData.message = elem.message;
           } else {
-            const [path, field] = elem.path.split('.');
+            const [path, field] = elem.path?.split('.') || '';
             payloadData.path = path;
             payloadData.field = field;
             payloadData.message = elem.errors[0].split('.')[1];

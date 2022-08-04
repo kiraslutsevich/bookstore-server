@@ -4,6 +4,7 @@ import { verify, hasher } from '../../utils/hashedPassword';
 import type { EmptyObject } from '../../utils/types';
 import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
+import { User } from '../../db/entity/User';
 
 type ReqBody = {
   oldPassword: string;

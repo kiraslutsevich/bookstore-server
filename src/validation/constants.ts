@@ -12,5 +12,5 @@ export const requirements = {
     .matches(onlyDigits, 'Must be only digits'),
   name: yup.string().min(2).max(30),
   email: yup.string().email().required(),
-  dob: yup.string().test(validationHelpers.checkIsStringDate),
+  // dob: yup.string().test(validationHelpers.checkIsStringDate),
 };
