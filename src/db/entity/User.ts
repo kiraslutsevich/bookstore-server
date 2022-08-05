@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
+  AfterLoad,
 } from 'typeorm';
+import addPath from '../../utils/addPath';
 import { hasher } from '../../utils/hashedPassword';
 
 @Entity()
@@ -45,6 +47,12 @@ export class User {
   })
   dob: Date;
 
+  @Column({
+    nullable: true,
+    type: 'varchar',
+  })
+  avatar: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -54,5 +62,10 @@ export class User {
   @BeforeInsert()
   hashPassword() {
     this.password = hasher(this.password);
+  }
+
+  @AfterLoad()
+  addDataForAvatar() {
+    this.avatar = addPath(this.avatar);
   }
 }

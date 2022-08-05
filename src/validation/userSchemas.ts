@@ -23,3 +23,9 @@ export const paramsSchema = {
     id: requirements.id,
   },
 };
+
+export const uploadAvatarSchema = {
+  body: {
+    file: requirements.avatar,
+  },
+};
