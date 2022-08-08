@@ -1,7 +1,7 @@
 import config from '../config';
 
 const addPath = (avatar: string) => {
-  return `${config.static}/${avatar}`;
+  return `http://localhost:4000/static/${avatar}`;
 };
 
 export default addPath;

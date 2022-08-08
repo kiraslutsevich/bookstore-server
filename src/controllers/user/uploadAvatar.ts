@@ -19,19 +19,26 @@ const uploadAvatar = async (req, res, next) => {
     const avatarName = v4();
 
     const buffer = Buffer.from(base64, 'base64');
+
     await fs.promises.writeFile(`${config.static}/${avatarName}.${getFormat(data)}`, buffer);
 
     const user = await db.user.findOne({
       where: { id: +req.user.id },
     });
+
+    if (user.avatar) {
+      const name = user.avatar.slice(29);
+      await fs.promises.unlink(`${config.static}/${name}`);
+    }
+
     user.avatar = `${avatarName}.${getFormat(file)}`;
-    db.user.save(user);
+    await db.user.save(user);
 
     const updatedUser = await db.user.findOne({
       where: { id: +req.user.id },
     });
 
-    return res.status(200).json({ message: 'successfully modified', updatedUser });
+    return res.status(200).json({ message: 'successfully modified', user: updatedUser });
   } catch (err) {
     next(err);
   }

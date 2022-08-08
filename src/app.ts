@@ -9,11 +9,13 @@ import config from './config';
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+
 app.use(cors({
   origin: [config.front],
 }));
-app.use(express.static('static'));
+
+app.use('/static', express.static(`${__dirname}/public`));
 app.use('/user', userRouter);
 app.use('/auth', authRouter);
 app.use(errorHandler);

@@ -66,6 +66,8 @@ export class User {
 
   @AfterLoad()
   addDataForAvatar() {
-    this.avatar = addPath(this.avatar);
+    if (this.avatar !== null) {
+      this.avatar = addPath(this.avatar);
+    }
   }
 }
