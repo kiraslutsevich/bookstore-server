@@ -8,14 +8,12 @@ import db from '../../db';
 const uploadAvatar = async (req, res, next) => {
   try {
     const file = await req.body.file;
+
     const [data, base64] = file.split(',');
     const getFormat = (data: string) => {
-      const format = data.slice(11, 15);
-      if (format === 'jpeg') {
-        return format;
-      }
-      return format.slice(0, 3);
+      return data.slice(11, 14);
     };
+
     const avatarName = v4();
 
     const buffer = Buffer.from(base64, 'base64');
@@ -38,7 +36,7 @@ const uploadAvatar = async (req, res, next) => {
       where: { id: +req.user.id },
     });
 
-    return res.status(200).json({ message: 'successfully modified', user: updatedUser });
+    return res.status(StatusCodes.OK).json(updatedUser);
   } catch (err) {
     next(err);
   }

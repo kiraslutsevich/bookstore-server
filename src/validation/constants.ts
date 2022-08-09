@@ -5,11 +5,13 @@ const reliable = /^[a-z0-9]{6,}$/i;
 const onlyDigits = /^[0-9]+$/;
 
 export const requirements = {
-  password: yup.string().required()
-    .matches(reliable),
-  id: yup.string()
+  password: yup.string()
     .required()
-    .matches(onlyDigits, 'Must be only digits'),
+    .matches(reliable)
+    .min(6)
+    .max(12),
+  id: yup.string()
+    .required(),
   name: yup.string().min(2).max(30),
   email: yup.string().email().required(),
   avatar: yup.string(),
