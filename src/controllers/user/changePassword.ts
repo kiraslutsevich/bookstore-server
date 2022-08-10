@@ -26,12 +26,12 @@ const changePassword: ControllerType = async (req, res, next) => {
       .getOne();
 
     if (!verify(req.body.oldPassword, user.password)) {
-      throw createCustomError(StatusCodes.BAD_REQUEST, 'Validation Error', {
+      throw createCustomError(StatusCodes.BAD_REQUEST, 'Validation Error', [{
         path: 'body',
         field: 'password',
         type: 'invalid password',
         message: 'Invalid password entered',
-      });
+      }]);
     }
     await db.user.update(req.user.id, { password: hasher(req.body.password) });
 

@@ -25,7 +25,12 @@ const signUp: ControllerType = async (req, res, next) => {
   try {
     const existingUser = await db.user.findOneBy({ email: req.body.email });
     if (existingUser) {
-      throw createCustomError(StatusCodes.BAD_REQUEST, 'Email must be unique', { field: 'email' });
+      throw createCustomError(StatusCodes.BAD_REQUEST, 'Validation Error', [{
+        path: 'body',
+        field: 'email',
+        type: 'invalid email',
+        message: 'Email must be unique',
+      }]);
     }
 
     const userData = req.body;
