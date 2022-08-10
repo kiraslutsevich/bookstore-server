@@ -2,11 +2,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  ManyToMany,
+  JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
-  // AfterLoad,
 } from 'typeorm';
-// import addPath from '../../utils/addPath';
+import { Genre } from './Genre';
 
 @Entity()
 export class Book {
@@ -27,21 +28,21 @@ export class Book {
 
   @Column({
     nullable: true,
-    type: 'varchar',
+    type: 'text',
   })
   description: string;
 
   @Column({
     nullable: true,
-    type: 'varchar',
+    type: 'int',
   })
-  price: string;
+  price: number;
 
   @Column({
     nullable: true,
-    type: 'date',
+    type: 'int',
   })
-  paperPrice: Date;
+  paperPrice: number;
 
   @Column({
     nullable: true,
@@ -49,17 +50,17 @@ export class Book {
   })
   cover: string;
 
-  @Column({
-    nullable: true,
-    type: 'date',
-  })
-  publicationDate: Date;
-
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToMany((type) => Genre, (Genre) => Genre.books, {
+    cascade: true,
+  })
+  @JoinTable()
+  genres: Book[];
 
 //   @AfterLoad()
 //   addDataForAvatar() {
