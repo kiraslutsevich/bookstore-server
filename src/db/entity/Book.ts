@@ -56,11 +56,11 @@ export class Book {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany((type) => Genre, (Genre) => Genre.books, {
+  @ManyToMany(() => Genre, (Genre) => Genre.id, {
     cascade: true,
   })
   @JoinTable()
-  genres: Book[];
+  genres: Genre[];
 
 //   @AfterLoad()
 //   addDataForAvatar() {

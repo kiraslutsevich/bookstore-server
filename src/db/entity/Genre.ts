@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToMany,
-  JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,6 +25,6 @@ export class Genre {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany((type) => Book, (book) => book.genres)
+  @ManyToMany(() => Book, (book) => book.genres)
   books: Genre[];
 }
