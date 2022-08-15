@@ -1,8 +1,5 @@
-import { DeepPartial } from 'typeorm';
 import db from '../index';
 import { connect } from '../dataSource';
-import { Genre } from '../entity/Genre';
-import { Book } from '../entity/Book';
 
 (async () => {
   await connect();

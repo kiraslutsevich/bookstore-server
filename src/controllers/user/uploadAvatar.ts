@@ -14,7 +14,7 @@ const uploadAvatar = async (req, res, next) => {
       return data.slice(11, 14);
     };
 
-    const avatarName = v4();
+    const avatarName = `avatar-${v4()}`;
 
     const buffer = Buffer.from(base64, 'base64');
 

@@ -4,9 +4,11 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  AfterLoad,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import addPath from '../../utils/addPath';
 import { Genre } from './Genre';
 
 @Entity()
@@ -62,10 +64,11 @@ export class Book {
   @JoinTable()
   genres: Genre[];
 
-//   @AfterLoad()
-//   addDataForAvatar() {
-//     if (this.avatar !== null) {
-//       this.avatar = addPath(this.avatar);
-//     }
-//   }
+  @AfterLoad()
+  addDataForCover() {
+    if (this.cover === '') {
+      return;
+    }
+    this.cover = addPath(this.cover);
+  }
 }
