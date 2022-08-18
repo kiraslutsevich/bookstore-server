@@ -8,18 +8,17 @@ import db from '../../db';
 
 type ReqParams = {
   id: string;
-
 }
 
 type ReqQuery = {
   column?: string;
   order?: 'ASC' | 'DESC';
-  perPage?: number;
-  page?: number;
+  perPage: number;
+  page: number;
   minPrice?: number;
   maxPrice?: number;
   search?: string;
-  genresId?: number[];
+  genres?: string;
 }
 
 type ResBody = Book[];
@@ -32,13 +31,12 @@ ReqQuery
 >
 
 const getAllBooks: ControllerType = async (req, res, next) => {
-  console.log(req.query.genresId)
   try {
     const order = {
       [req.query.column]: req.query.order,
     };
-    const take = req.query.perPage || 12;
-    const page = +req.query.page || 1;
+    const take = req.query.perPage;
+    const page = +req.query.page;
     const skip = take ? (page - 1) * take : null;
     const price = Between(req.query.minPrice || 0, req.query.maxPrice || 10000);
     let where: FindManyOptions<Book>['where'];
@@ -50,9 +48,10 @@ const getAllBooks: ControllerType = async (req, res, next) => {
         { author: searchQuery, price },
         // { desription: searchQuery, price },
       ];
-    } else if (req.query.genresId) {
-      const arr = req.query.genresId.map((genre) => {
-        return { id: genre };
+    } else if (req.query.genres) {
+      const genresArr = req.query.genres.split(',');
+      const arr = genresArr.map((genre) => {
+        return { id: Number(genre) };
       });
       where = {
         genres: arr,
@@ -77,7 +76,6 @@ const getAllBooks: ControllerType = async (req, res, next) => {
     }
     return res.status(StatusCodes.OK).json(books);
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

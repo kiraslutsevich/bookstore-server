@@ -1,13 +1,24 @@
 import { StatusCodes } from 'http-status-codes';
 import { v4 } from 'uuid';
 import fs from 'fs';
+import { RequestHandler } from 'express';
+import { EmptyObject } from 'src/utils/types';
 import config from '../../config';
-import createCustomError from '../../utils/createCustomError';
 import db from '../../db';
+import { User } from '../../db/entity/User';
 
-const uploadAvatar = async (req, res, next) => {
+type ReqBody = {
+  file: string;
+}
+
+type ReqParams = {
+  id: string;
+}
+type ControllerType = RequestHandler<ReqParams, User, ReqBody, EmptyObject>;
+
+const uploadAvatar: ControllerType = async (req, res, next) => {
   try {
-    const file = await req.body.file;
+    const file = req.body.file;
 
     const [data, base64] = file.split(',');
     const getFormat = (data: string) => {
