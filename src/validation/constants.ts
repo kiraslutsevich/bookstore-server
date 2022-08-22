@@ -7,12 +7,12 @@ const onlyDigits = /^[0-9]+$/;
 export const requirements = {
   password: yup.string()
     .required()
-    .matches(reliable)
+    .matches(reliable, 'Validation error')
     .min(6)
     .max(12),
   id: yup.string()
     .required(),
-  name: yup.string().min(2).max(30),
+  name: yup.string(),
   email: yup.string().email().required(),
   avatar: yup.string(),
   // dob: yup.string().test(validationHelpers.checkIsStringDate),

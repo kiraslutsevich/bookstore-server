@@ -13,6 +13,7 @@ import { connect } from '../dataSource';
     paperPrice: number;
     cover: string;
     genres: string[];
+    releasedAt: Date;
   };
 
   const books: BookType[] = [
@@ -27,6 +28,7 @@ import { connect } from '../dataSource';
       paperPrice: 1399,
       cover: 'cover01.png',
       genres: ['Fiction', 'Science-fiction', 'Satire'],
+      releasedAt: new Date(1995, 11, 17),
     },
     {
       name: 'The Psychlogy of Money',
@@ -41,6 +43,7 @@ import { connect } from '../dataSource';
       paperPrice: 1599,
       cover: 'cover02.png',
       genres: ['Fantasy', 'Light fiction'],
+      releasedAt: new Date(1998, 11, 17),
     },
     {
       name: 'The Picture of Dorian Gray',
@@ -53,6 +56,7 @@ import { connect } from '../dataSource';
       paperPrice: 1499,
       cover: 'cover03.png',
       genres: ['Politics', 'History'],
+      releasedAt: new Date(2005, 11, 17),
     },
     {
       name: 'The Subtle art of not giving a fuck',
@@ -65,6 +69,7 @@ import { connect } from '../dataSource';
       paperPrice: 899,
       cover: 'cover04.png',
       genres: ['History', 'Light fiction', 'Health'],
+      releasedAt: new Date(2011, 11, 17),
     },
     {
       name: 'The Two towers',
@@ -77,6 +82,7 @@ import { connect } from '../dataSource';
       paperPrice: 1199,
       cover: 'cover02.png',
       genres: ['Health', 'Encyclopedia'],
+      releasedAt: new Date(2022, 7, 17),
     },
     {
       name: 'Book of Fairy Tales',
@@ -89,6 +95,7 @@ import { connect } from '../dataSource';
       paperPrice: 2199,
       cover: 'cover01.png',
       genres: ['Encyclopedia', 'Science-fiction', 'Satire'],
+      releasedAt: new Date(2021, 11, 17),
     },
     {
       name: 'The Picture of Money',
@@ -101,6 +108,7 @@ import { connect } from '../dataSource';
       paperPrice: 1199,
       cover: 'cover05.png',
       genres: ['Health', 'Encyclopedia', 'Science-fiction'],
+      releasedAt: new Date(2022, 5, 17),
     },
     {
       name: 'The Chronicles of Narnia',
@@ -113,6 +121,7 @@ import { connect } from '../dataSource';
       paperPrice: 2199,
       cover: 'cover06.png',
       genres: ['Children`s books', 'Encyclopedia', 'Politics'],
+      releasedAt: new Date(2018, 11, 17),
     },
     {
       name: 'Moby Dick',
@@ -125,6 +134,7 @@ import { connect } from '../dataSource';
       paperPrice: 2799,
       cover: 'cover01.png',
       genres: ['Politics', 'Fantasy', 'Horror'],
+      releasedAt: new Date(2016, 11, 17),
     },
     {
       name: 'The Chronicles of Topol',
@@ -137,6 +147,7 @@ import { connect } from '../dataSource';
       paperPrice: 1899,
       cover: 'cover05.png',
       genres: ['Horror', 'Romance', 'Autobiography', 'Travel books'],
+      releasedAt: new Date(2004, 11, 17),
     },
     {
       name: 'The Crying book',
@@ -149,6 +160,7 @@ import { connect } from '../dataSource';
       paperPrice: 1399,
       cover: 'cover04.png',
       genres: ['History', 'Thriller'],
+      releasedAt: new Date(2022, 6, 17),
     },
     {
       name: 'The Funny book',
@@ -162,6 +174,7 @@ import { connect } from '../dataSource';
       paperPrice: 1199,
       cover: '',
       genres: ['History', 'Thriller', 'Romance'],
+      releasedAt: new Date(2013, 11, 17),
     },
     {
       name: 'The Kill',
@@ -174,6 +187,7 @@ import { connect } from '../dataSource';
       paperPrice: 2299,
       cover: 'cover01.png',
       genres: ['Light fiction', 'Science-fiction'],
+      releasedAt: new Date(1994, 11, 17),
     },
     {
       name: 'How to stop worrying and start living',
@@ -186,6 +200,7 @@ import { connect } from '../dataSource';
       paperPrice: 1599,
       cover: 'cover09.png',
       genres: ['History', 'Thriller', 'Romance', 'Travel books'],
+      releasedAt: new Date(2001, 11, 17),
     },
     {
       name: 'Don’t sweat the Small Stuuff',
@@ -199,6 +214,7 @@ import { connect } from '../dataSource';
       paperPrice: 1199,
       cover: 'cover06.png',
       genres: ['History', 'Thriller', 'Encyclopedia', 'Autobiography'],
+      releasedAt: new Date(1995, 4, 17),
     },
     {
       name: 'The Chronicles of Narnia',
@@ -211,6 +227,7 @@ import { connect } from '../dataSource';
       paperPrice: 1399,
       cover: 'cover01.png',
       genres: ['Health', 'Encyclopedia'],
+      releasedAt: new Date(1998, 3, 17),
     },
     {
       name: 'The Weight of Things',
@@ -223,6 +240,7 @@ import { connect } from '../dataSource';
       paperPrice: 2799,
       cover: 'cover05.png',
       genres: ['Health', 'Encyclopedia', 'Non—fiction'],
+      releasedAt: new Date(2021, 12, 17),
     },
   ];
 

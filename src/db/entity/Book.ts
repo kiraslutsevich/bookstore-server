@@ -52,6 +52,12 @@ export class Book {
   })
   cover: string;
 
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  releasedAt: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 
