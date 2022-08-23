@@ -7,9 +7,11 @@ import {
   AfterLoad,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
 import { Genre } from './Genre';
+import { Rating } from './Rating';
 
 @Entity()
 export class Book {
@@ -69,6 +71,12 @@ export class Book {
   })
   @JoinTable()
   genres: Genre[];
+
+  @OneToMany(() => Rating, (Rating) => Rating.id, {
+    cascade: true,
+  })
+  @JoinTable()
+  rating: Rating[];
 
   @AfterLoad()
   addDataForCover() {
