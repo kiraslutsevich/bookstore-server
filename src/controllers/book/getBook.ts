@@ -21,6 +21,10 @@ EmptyObject
 const getUser: ControllerType = async (req, res, next) => {
   try {
     const book = await db.book.findOne({
+      relations: {
+        // genres: true,
+        rating: true,
+      },
       where: {
         id: +req.params.id,
       },

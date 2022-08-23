@@ -8,6 +8,7 @@ import {
   AfterLoad,
   OneToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
 import { hasher } from '../../utils/hashedPassword';
@@ -62,10 +63,10 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Rating, (User) => User.id, {
+  @OneToMany(() => Rating, (Rating) => Rating.User, {
     cascade: true,
   })
-  @JoinTable()
+  @JoinColumn()
   rating: Rating[];
 
   @BeforeInsert()

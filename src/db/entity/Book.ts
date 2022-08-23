@@ -8,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
 import { Genre } from './Genre';
@@ -72,10 +73,10 @@ export class Book {
   @JoinTable()
   genres: Genre[];
 
-  @OneToMany(() => Rating, (Rating) => Rating.id, {
+  @OneToMany(() => Rating, (Rating) => Rating.Book, {
     cascade: true,
   })
-  @JoinTable()
+  @JoinColumn()
   rating: Rating[];
 
   @AfterLoad()

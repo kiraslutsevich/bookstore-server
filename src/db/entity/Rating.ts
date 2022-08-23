@@ -18,12 +18,12 @@ export class Rating {
   })
   bookRating: number;
 
-  @ManyToOne(() => Book, (Book) => Book.id, {
+  @ManyToOne(() => Book, (Book) => Book.rating, {
     nullable: false,
   })
   Book: Book;
 
-  @ManyToOne(() => User, (User) => User.id, {
+  @ManyToOne(() => User, (User) => User.rating, {
     nullable: false,
   })
   User: User;
