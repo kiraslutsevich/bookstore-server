@@ -7,6 +7,7 @@ import errorHandler from './middlewars/errorHandler';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type from './type';
 import config from './config';
+import genresRouter from './routes/genresRouter';
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/static', express.static(`${__dirname}/public`));
 app.use('/user', userRouter);
 app.use('/auth', authRouter);
 app.use('/books', booksRouter);
+app.use('/genres', genresRouter);
 app.use(errorHandler);
 
 export default app;

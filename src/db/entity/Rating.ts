@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  AfterLoad,
 } from 'typeorm';
 import { Book } from './Book';
 import { User } from './User';

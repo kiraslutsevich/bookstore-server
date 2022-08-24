@@ -57,6 +57,12 @@ export class Book {
 
   @Column({
     nullable: true,
+    type: 'int',
+  })
+  meanRating: number;
+
+  @Column({
+    nullable: true,
     type: 'date',
   })
   releasedAt: Date;
@@ -87,16 +93,16 @@ export class Book {
     this.cover = addPath(this.cover);
   }
 
-  @AfterLoad()
-  addMean() {
-    if (Array.isArray(this.rating)) {
-      const length = this.rating.length;
-      if (!length) {
-        this.rating = 0;
-        return;
-      }
-      const mean = this.rating.reduce(((acc, obj) => acc + obj.bookRating), 0) / length;
-      this.rating = mean;
-    }
-  }
+  // @AfterLoad()
+  // addMean() {
+  //   if (Array.isArray(this.rating)) {
+  //     const length = this.rating.length;
+  //     if (!length) {
+  //       this.rating = 0;
+  //       return;
+  //     }
+  //     const mean = Math.ceil(this.rating.reduce(((acc, obj) => acc + obj.bookRating), 0)) / length;
+  //     this.rating = mean;
+  //   }
+  // }
 }

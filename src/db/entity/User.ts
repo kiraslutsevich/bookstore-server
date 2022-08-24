@@ -60,7 +60,7 @@ export class User {
   @OneToMany(() => Rating, (Rating) => Rating.User, {
     cascade: true,
   })
-  @JoinColumn()
+  @JoinTable()
   rating: Rating[];
 
   @BeforeInsert()

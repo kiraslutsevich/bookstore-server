@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Between, FindManyOptions, ILike } from 'typeorm';
+import { FindManyOptions, ILike } from 'typeorm';
 import type { EmptyObject } from '../../utils/types';
 import db from '../../db';
 import { User } from '../../db/entity/User';
