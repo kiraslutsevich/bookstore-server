@@ -64,6 +64,7 @@ const getAllBooks: ControllerType = async (req, res, next) => {
     const [books, totalCount] = await db.book.findAndCount({
       relations: {
         genres: true,
+        rating: true,
       },
       where,
       order,
@@ -74,6 +75,7 @@ const getAllBooks: ControllerType = async (req, res, next) => {
     if (!books) {
       throw createCustomError(StatusCodes.NOT_FOUND, 'books not found');
     }
+
     return res.status(StatusCodes.OK).json(books);
   } catch (err) {
     next(err);

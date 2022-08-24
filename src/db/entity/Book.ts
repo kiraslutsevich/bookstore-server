@@ -77,7 +77,7 @@ export class Book {
     cascade: true,
   })
   @JoinColumn()
-  rating: Rating[];
+  rating: Rating[] | number;
 
   @AfterLoad()
   addDataForCover() {
@@ -85,5 +85,18 @@ export class Book {
       return;
     }
     this.cover = addPath(this.cover);
+  }
+
+  @AfterLoad()
+  addMean() {
+    if (Array.isArray(this.rating)) {
+      const length = this.rating.length;
+      if (!length) {
+        this.rating = 0;
+        return;
+      }
+      const mean = this.rating.reduce(((acc, obj) => acc + obj.bookRating), 0) / length;
+      this.rating = mean;
+    }
   }
 }
