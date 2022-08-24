@@ -1,15 +1,16 @@
 import { RequestHandler } from 'express-serve-static-core';
 import { StatusCodes } from 'http-status-codes';
+import { Book } from 'src/db/entity/Book';
 import db from '../../db/index';
 import { Rating } from '../../db/entity/Rating';
 
 type RequestBody = {
   bookId: string;
-  bookRating: string;
+  rating: string;
 }
 
 type Response = {
-  payload: Rating;
+  book: Book;
 }
 
 type ControllerType = RequestHandler<
@@ -23,7 +24,8 @@ const rateBook: ControllerType = async (req, res, next) => {
   try {
     const bookId = +req.body.bookId;
     const userId = +req.user.id;
-    const bookRating = +req.body.bookRating;
+    const bookRating = +req.body.rating;
+    console.log(req.body)
     const ratingOverwriting = await db.rating.findOne({
       relations: {
         Book: true,
@@ -39,14 +41,36 @@ const rateBook: ControllerType = async (req, res, next) => {
       },
     });
     const ratingToUpdate = ratingOverwriting || new Rating();
-    ratingToUpdate.Book = await db.book.findOneBy({ id: bookId });
+    const book = await db.book.findOneBy({ id: bookId });
+    ratingToUpdate.Book = book;
     ratingToUpdate.User = await db.user.findOneBy({ id: userId });
     ratingToUpdate.bookRating = bookRating;
     db.rating.create(ratingToUpdate);
     await db.rating.save(ratingToUpdate);
+
+    const ratings = await db.rating.find({
+      relations: {
+        Book: true,
+      },
+      where: {
+        Book: {
+          id: bookId,
+        },
+      },
+    });
+
+    const length = ratings.length;
+    if (!length) {
+      book.meanRating = 0;
+    } else {
+      const mean = Math.ceil(ratings.reduce(((acc, obj) => acc + obj.bookRating), 0) / length);
+      book.meanRating = mean;
+    }
+    console.log(book)
+    await db.book.update(bookId, book);
     return res
       .status(StatusCodes.CREATED)
-      .json({ payload: ratingToUpdate });
+      .json({ book });
   } catch (err) {
     next(err);
   }

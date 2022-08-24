@@ -9,7 +9,7 @@ import rateBook from '../controllers/book/rateBook';
 const booksRouter: Router = express.Router();
 
 booksRouter.get('/', getAllBooks);
-booksRouter.post('/rating', checkAuth, rateBook);
+booksRouter.patch('/rating', checkAuth, rateBook);
 booksRouter.get('/:id', getBook);
 
 export default booksRouter;
