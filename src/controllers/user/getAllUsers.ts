@@ -35,22 +35,16 @@ const getAllUser: ControllerType = async (req, res, next) => {
     const take = req.query.perPage || null;
     const page = +req.query.page || 1;
     const skip = take ? (page - 1) * take : null;
-    const dob = Between(
-      new Date(req.query.minDob || 0),
-      new Date(req.query.maxDob),
-    );
 
     let where: FindManyOptions<User>['where'];
 
     if (req.query.search) {
       const searchQuery = ILike(`%${req.query.search}%`);
       where = [
-        { firstName: searchQuery, dob },
-        { lastName: searchQuery, dob },
-        { email: searchQuery, dob },
+        { firstName: searchQuery },
+        { lastName: searchQuery },
+        { email: searchQuery },
       ];
-    } else {
-      where = { dob };
     }
 
     const [users, totalCount] = await db.user.findAndCount({

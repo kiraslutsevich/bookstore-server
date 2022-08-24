@@ -13,7 +13,14 @@ const checkAuth: Handler = async (req, res, next) => {
       throw createCustomError(StatusCodes.UNAUTHORIZED, 'request auth header does not include "Bearer"');
     }
     const { id } = verifyToken(req.headers.authorization.split(' ')[1]);
-    const user = await db.user.findOne({ where: { id } });
+    const user = await db.user.findOne({
+      relations: {
+        rating: true,
+      },
+      where: {
+        id,
+      },
+    });
     if (!user) {
       throw createCustomError(StatusCodes.FORBIDDEN, 'invalid authorization');
     }
