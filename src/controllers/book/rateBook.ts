@@ -9,9 +9,7 @@ type RequestBody = {
   rating: string;
 }
 
-type Response = {
-  book: Book;
-}
+type Response = Book;
 
 type ControllerType = RequestHandler<
 Record<string, never>,
@@ -25,7 +23,7 @@ const rateBook: ControllerType = async (req, res, next) => {
     const bookId = +req.body.bookId;
     const userId = +req.user.id;
     const bookRating = +req.body.rating;
-    console.log(req.body)
+
     const ratingOverwriting = await db.rating.findOne({
       relations: {
         Book: true,
@@ -59,18 +57,18 @@ const rateBook: ControllerType = async (req, res, next) => {
       },
     });
 
+    let mean: number;
     const length = ratings.length;
     if (!length) {
-      book.meanRating = 0;
+      mean = 0;
     } else {
-      const mean = Math.ceil(ratings.reduce(((acc, obj) => acc + obj.bookRating), 0) / length);
-      book.meanRating = mean;
+      mean = Math.ceil(ratings.reduce(((acc, obj) => acc + obj.bookRating), 0) / length);
     }
-    console.log(book)
-    await db.book.update(bookId, book);
+    await db.book.update(bookId, { meanRating: mean });
+    const updatedBook = await db.book.findOneBy({ id: bookId });
     return res
       .status(StatusCodes.CREATED)
-      .json({ book });
+      .json(updatedBook);
   } catch (err) {
     next(err);
   }
