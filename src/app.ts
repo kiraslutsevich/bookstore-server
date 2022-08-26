@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import userRouter from './routes/userRouter';
 import authRouter from './routes/authRouter';
 import booksRouter from './routes/booksRouter';
@@ -17,7 +18,7 @@ app.use(cors({
   origin: [config.front],
 }));
 
-app.use('/static', express.static(`${__dirname}/public`));
+app.use('/static', express.static(path.resolve(__dirname, '../public')));
 app.use('/user', userRouter);
 app.use('/auth', authRouter);
 app.use('/books', booksRouter);
