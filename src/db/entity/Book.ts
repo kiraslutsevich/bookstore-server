@@ -83,7 +83,7 @@ export class Book {
     cascade: true,
   })
   @JoinColumn()
-  rating: Rating[] | number;
+  rating: Rating[];
 
   @AfterLoad()
   addDataForCover() {

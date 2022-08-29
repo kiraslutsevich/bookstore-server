@@ -10,6 +10,6 @@ const booksRouter: Router = express.Router();
 
 booksRouter.get('/', getAllBooks);
 booksRouter.patch('/rating', checkAuth, rateBook);
-booksRouter.get('/:id', getBook);
+booksRouter.get('/:id', checkAuth, getBook);
 
 export default booksRouter;

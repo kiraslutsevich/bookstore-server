@@ -3,13 +3,17 @@ import { StatusCodes } from 'http-status-codes';
 import { Book } from 'src/db/entity/Book';
 import db from '../../db/index';
 import { Rating } from '../../db/entity/Rating';
+import { runInNewContext } from 'vm';
 
 type RequestBody = {
   bookId: string;
   rating: string;
 }
 
-type Response = Book;
+type Response = {
+  updatedBook: Book;
+  userRating: number;
+};
 
 type ControllerType = RequestHandler<
 Record<string, never>,
@@ -65,10 +69,21 @@ const rateBook: ControllerType = async (req, res, next) => {
       mean = Math.ceil(ratings.reduce(((acc, obj) => acc + obj.bookRating), 0) / length);
     }
     await db.book.update(bookId, { meanRating: mean });
-    const updatedBook = await db.book.findOneBy({ id: bookId });
+    const updatedBook = await db.book.findOne({
+      relations: {
+        rating: {
+          User: true,
+        },
+      },
+      where: {
+        id: bookId,
+      },
+    });
+    const userRating = updatedBook.rating.find((el) => el.User.id === req.user.id).bookRating;
+
     return res
       .status(StatusCodes.CREATED)
-      .json(updatedBook);
+      .json({ updatedBook, userRating });
   } catch (err) {
     next(err);
   }
