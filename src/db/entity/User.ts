@@ -8,13 +8,11 @@ import {
   AfterLoad,
   OneToMany,
   JoinTable,
-  JoinColumn,
-  OneToOne,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
 import { hasher } from '../../utils/hashedPassword';
 import { Rating } from './Rating';
-import { Card } from './Card';
+import { CartItem } from './CartItem';
 
 @Entity()
 export class User {
@@ -59,15 +57,17 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Rating, (Rating) => Rating.User, {
+  @OneToMany(() => Rating, (Rating) => Rating.user, {
     cascade: true,
   })
   @JoinTable()
   rating: Rating[];
 
-  // @OneToOne(() => Card, (card) => card.user)
-  // @JoinColumn()
-  // card: Card;
+  @OneToMany(() => CartItem, (CartItem) => CartItem.user, {
+    cascade: true,
+  })
+  @JoinTable()
+  cartItems: CartItem[];
 
   @BeforeInsert()
   hashPassword() {

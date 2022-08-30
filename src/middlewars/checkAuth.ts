@@ -16,7 +16,7 @@ const checkAuth: Handler = async (req, res, next) => {
     const user = await db.user.findOne({
       relations: {
         rating: {
-          Book: true,
+          book: true,
         },
       },
       where: {

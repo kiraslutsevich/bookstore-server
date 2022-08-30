@@ -9,10 +9,9 @@ import {
   UpdateDateColumn,
   OneToMany,
   JoinColumn,
-  ManyToOne,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
-import { Card } from './Card';
+import { CartItem } from './CartItem';
 import { Genre } from './Genre';
 import { Rating } from './Rating';
 
@@ -81,14 +80,17 @@ export class Book {
   @JoinTable()
   genres: Genre[];
 
-  @OneToMany(() => Rating, (Rating) => Rating.Book, {
+  @OneToMany(() => Rating, (Rating) => Rating.book, {
     cascade: true,
   })
   @JoinColumn()
   rating: Rating[];
 
-  // @ManyToOne(() => Card, (card) => card.books)
-  // card: Card;
+  @OneToMany(() => CartItem, (CartItem) => CartItem.book, {
+    cascade: true,
+  })
+  @JoinColumn()
+  cartItems: CartItem[];
 
   @AfterLoad()
   addDataForCover() {

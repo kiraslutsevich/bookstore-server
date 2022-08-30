@@ -19,12 +19,10 @@ type ControllerType = RequestHandler<ReqParams, User, ReqBody, EmptyObject>;
 const uploadAvatar: ControllerType = async (req, res, next) => {
   try {
     const file = req.body.file;
-
     const [data, base64] = file.split(',');
     const getFormat = (data: string) => {
       return data.slice(11, 14);
     };
-
     const avatarName = `avatar-${v4()}`;
 
     const buffer = Buffer.from(base64, 'base64');

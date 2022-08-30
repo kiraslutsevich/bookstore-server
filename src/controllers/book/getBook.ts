@@ -29,9 +29,7 @@ const getBook: ControllerType = async (req, res, next) => {
   try {
     const book = await db.book.findOne({
       relations: {
-        rating: {
-          User: true,
-        },
+        rating: true,
       },
       where: {
         id: +req.params.id,
@@ -42,7 +40,7 @@ const getBook: ControllerType = async (req, res, next) => {
     }
     if (req.query.userId) {
       let bookRating;
-      const userRating = book.rating.find((el) => el.User.id === +req.query.userId);
+      const userRating = book.rating.find((el) => el.userId === +req.query.userId);
       if (!userRating) {
         bookRating = 0;
       } else {

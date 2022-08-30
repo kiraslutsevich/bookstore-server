@@ -1,17 +1,16 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  JoinColumn,
-  OneToMany,
+  ManyToOne,
+  Column,
 } from 'typeorm';
 import { Book } from './Book';
 import { User } from './User';
 
 @Entity()
-export class Card {
+export class CartItem {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,15 +20,16 @@ export class Card {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // @OneToMany(() => Book, (book) => book.card, {
-  //   cascade: true,
-  // })
-  // @JoinColumn()
-  // books: Book[];
+  @Column({ type: 'int' })
+  count: number;
 
-  // @OneToOne(() => User, (user) => user.card, {
-  //   cascade: true,
-  // })
-  // @JoinColumn()
-  // user: User;
+  @ManyToOne(() => Book, (book) => book.cartItems, {
+    nullable: false,
+  })
+  book: Book;
+
+  @ManyToOne(() => User, (user) => user.cartItems, {
+    nullable: false,
+  })
+  user: User;
 }

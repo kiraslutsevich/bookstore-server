@@ -25,37 +25,34 @@ Record<string, never>
 const rateBook: ControllerType = async (req, res, next) => {
   try {
     const bookId = +req.body.bookId;
-    const userId = +req.user.id;
+    const currentUserId = +req.user.id;
     const bookRating = +req.body.rating;
 
     const ratingOverwriting = await db.rating.findOne({
       relations: {
-        Book: true,
-        User: true,
+        book: true,
       },
       where: {
-        Book: {
+        book: {
           id: bookId,
         },
-        User: {
-          id: userId,
-        },
+        userId: currentUserId,
       },
     });
     const ratingToUpdate = ratingOverwriting || new Rating();
     const book = await db.book.findOneBy({ id: bookId });
-    ratingToUpdate.Book = book;
-    ratingToUpdate.User = await db.user.findOneBy({ id: userId });
+    ratingToUpdate.book = book;
+    ratingToUpdate.user = await db.user.findOneBy({ id: currentUserId });
     ratingToUpdate.bookRating = bookRating;
     db.rating.create(ratingToUpdate);
     await db.rating.save(ratingToUpdate);
 
     const ratings = await db.rating.find({
       relations: {
-        Book: true,
+        book: true,
       },
       where: {
-        Book: {
+        book: {
           id: bookId,
         },
       },
@@ -71,15 +68,14 @@ const rateBook: ControllerType = async (req, res, next) => {
     await db.book.update(bookId, { meanRating: mean });
     const updatedBook = await db.book.findOne({
       relations: {
-        rating: {
-          User: true,
-        },
+        rating: true,
       },
       where: {
         id: bookId,
       },
     });
-    const userRating = updatedBook.rating.find((el) => el.User.id === req.user.id).bookRating;
+
+    const userRating = updatedBook.rating.find((el) => el.userId === currentUserId).bookRating;
 
     return res
       .status(StatusCodes.CREATED)
