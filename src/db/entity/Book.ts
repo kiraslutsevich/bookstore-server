@@ -9,8 +9,10 @@ import {
   UpdateDateColumn,
   OneToMany,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
+import { Card } from './Card';
 import { Genre } from './Genre';
 import { Rating } from './Rating';
 
@@ -85,6 +87,9 @@ export class Book {
   @JoinColumn()
   rating: Rating[];
 
+  // @ManyToOne(() => Card, (card) => card.books)
+  // card: Card;
+
   @AfterLoad()
   addDataForCover() {
     if (this.cover === '') {
@@ -92,17 +97,4 @@ export class Book {
     }
     this.cover = addPath(this.cover);
   }
-
-  // @AfterLoad()
-  // addMean() {
-  //   if (Array.isArray(this.rating)) {
-  //     const length = this.rating.length;
-  //     if (!length) {
-  //       this.rating = 0;
-  //       return;
-  //     }
-  //     const mean = Math.ceil(this.rating.reduce(((acc, obj) => acc + obj.bookRating), 0)) / length;
-  //     this.rating = mean;
-  //   }
-  // }
 }

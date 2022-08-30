@@ -9,10 +9,12 @@ import {
   OneToMany,
   JoinTable,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
 import { hasher } from '../../utils/hashedPassword';
 import { Rating } from './Rating';
+import { Card } from './Card';
 
 @Entity()
 export class User {
@@ -62,6 +64,10 @@ export class User {
   })
   @JoinTable()
   rating: Rating[];
+
+  // @OneToOne(() => Card, (card) => card.user)
+  // @JoinColumn()
+  // card: Card;
 
   @BeforeInsert()
   hashPassword() {

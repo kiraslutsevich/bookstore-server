@@ -9,19 +9,23 @@ type ReqParams = {
   id: string;
 }
 
+type ReqQuery = {
+  userId?: number;
+}
+
 type ResBody = {
   book: Book;
-  userRating: number;
+  bookRating?: number;
 };
 
 type ControllerType = RequestHandler<
 ReqParams,
 ResBody,
 EmptyObject,
-EmptyObject
+ReqQuery
 >
 
-const getUser: ControllerType = async (req, res, next) => {
+const getBook: ControllerType = async (req, res, next) => {
   try {
     const book = await db.book.findOne({
       relations: {
@@ -36,11 +40,20 @@ const getUser: ControllerType = async (req, res, next) => {
     if (!book) {
       throw createCustomError(StatusCodes.NOT_FOUND, 'book not found');
     }
-    const userRating = book.rating.find((el) => el.User.id === req.user.id).bookRating;
-    return res.status(StatusCodes.OK).json({ book, userRating });
+    if (req.query.userId) {
+      let bookRating;
+      const userRating = book.rating.find((el) => el.User.id === +req.query.userId);
+      if (!userRating) {
+        bookRating = 0;
+      } else {
+        bookRating = userRating.bookRating;
+      }
+      return res.status(StatusCodes.OK).json({ book, bookRating });
+    }
+    return res.status(StatusCodes.OK).json({ book });
   } catch (err) {
     next(err);
   }
 };
 
-export default getUser;
+export default getBook;
