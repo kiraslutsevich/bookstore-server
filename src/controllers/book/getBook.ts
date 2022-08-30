@@ -15,7 +15,7 @@ type ReqQuery = {
 
 type ResBody = {
   book: Book;
-  bookRating?: number;
+  userRating?: number;
 };
 
 type ControllerType = RequestHandler<
@@ -39,14 +39,14 @@ const getBook: ControllerType = async (req, res, next) => {
       throw createCustomError(StatusCodes.NOT_FOUND, 'book not found');
     }
     if (req.query.userId) {
-      let bookRating;
-      const userRating = book.rating.find((el) => el.userId === +req.query.userId);
-      if (!userRating) {
-        bookRating = 0;
+      let userRating;
+      const currentUserRating = book.rating.find((el) => el.userId === +req.query.userId);
+      if (!currentUserRating) {
+        userRating = 0;
       } else {
-        bookRating = userRating.bookRating;
+        userRating = currentUserRating.bookRating;
       }
-      return res.status(StatusCodes.OK).json({ book, bookRating });
+      return res.status(StatusCodes.OK).json({ book, userRating });
     }
     return res.status(StatusCodes.OK).json({ book });
   } catch (err) {
