@@ -18,7 +18,7 @@ type ReqQuery = {
   minPrice?: number;
   maxPrice?: number;
   search?: string;
-  genres?: string;
+  genresOn?: string;
 }
 
 type ResBody = Book[];
@@ -48,8 +48,8 @@ const getAllBooks: ControllerType = async (req, res, next) => {
         { author: searchQuery, price },
         // { desription: searchQuery, price },
       ];
-    } else if (req.query.genres) {
-      const genresArr = req.query.genres.split(',');
+    } else if (req.query.genresOn) {
+      const genresArr = req.query.genresOn.split(',');
       const arr = genresArr.map((genre) => {
         return { id: Number(genre) };
       });
