@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 import { Book } from 'src/db/entity/Book';
 import db from '../../db/index';
 import { Rating } from '../../db/entity/Rating';
-import { runInNewContext } from 'vm';
 
 type RequestBody = {
   bookId: string;
