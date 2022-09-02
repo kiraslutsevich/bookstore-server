@@ -5,7 +5,7 @@ import type { EmptyObject } from '../../utils/types';
 import db from '../../db';
 
 type ReqBody = {
-  bookId: number;
+ id: number;
 }
 
 type ResBody = {
@@ -17,7 +17,7 @@ type ControllerType = RequestHandler<EmptyObject, ResBody, ReqBody, EmptyObject>
 const addToCart: ControllerType = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const bookId = req.body.bookId;
+    const bookId = req.body.id;
 
     const cartItem = await db.cartItem.findOne({
       relations: {
