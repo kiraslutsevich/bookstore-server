@@ -64,6 +64,12 @@ export class Book {
 
   @Column({
     nullable: true,
+    type: 'boolean',
+  })
+  isBestseller: boolean;
+
+  @Column({
+    nullable: true,
     type: 'date',
   })
   releasedAt: Date;

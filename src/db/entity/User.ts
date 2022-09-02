@@ -51,6 +51,12 @@ export class User {
   })
   avatar: string;
 
+  @Column({
+    nullable: true,
+    type: 'int',
+  })
+  amountCartItems: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -68,6 +74,7 @@ export class User {
   })
   @JoinTable()
   cartItems: CartItem[];
+
 
   @BeforeInsert()
   hashPassword() {
