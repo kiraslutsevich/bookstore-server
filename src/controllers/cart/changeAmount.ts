@@ -18,20 +18,14 @@ type ControllerType = RequestHandler<EmptyObject, ResBody, ReqBody, EmptyObject>
 
 const changeAmount: ControllerType = async (req, res, next) => {
   try {
-    const userId = req.user.id;
-    const bookId = req.body.id;
+    const id = req.body.id;
 
     const cartItem = await db.cartItem.findOne({
       relations: {
         book: true,
       },
       where: {
-        book: {
-          id: bookId,
-        },
-        user: {
-          id: userId,
-        },
+        id,
       },
     });
     if (!cartItem) {
@@ -49,6 +43,7 @@ const changeAmount: ControllerType = async (req, res, next) => {
         },
       },
     );
+    console.log(newCartItem)
     return res.status(StatusCodes.OK).json({ newCartItem });
   } catch (err) {
     next(err);
