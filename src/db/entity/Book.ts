@@ -98,6 +98,11 @@ export class Book {
   @JoinColumn()
   cartItems: CartItem[];
 
+  // @ManyToMany(() => User, (User) => User.favorites, {
+  //   cascade: true,
+  // })
+  // users: User[];
+
   @AfterLoad()
   addDataForCover() {
     if (this.cover === '') {

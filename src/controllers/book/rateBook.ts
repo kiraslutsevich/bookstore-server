@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express-serve-static-core';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Book } from 'src/db/entity/Book';
 import db from '../../db/index';
