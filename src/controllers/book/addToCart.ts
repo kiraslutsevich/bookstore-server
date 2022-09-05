@@ -5,7 +5,7 @@ import type { EmptyObject } from '../../utils/types';
 import db from '../../db';
 
 type ReqBody = {
- id: number;
+  id: number;
 }
 
 type ResBody = {
