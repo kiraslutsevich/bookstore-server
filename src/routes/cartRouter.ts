@@ -9,7 +9,7 @@ const cartRouter: Router = express.Router();
 
 cartRouter.post('/add', checkAuth, addToCart);
 cartRouter.get('/', checkAuth, getCartItems);
-cartRouter.patch('/', changeAmount);
+cartRouter.patch('/', checkAuth, changeAmount);
 cartRouter.delete('/:id', checkAuth, removeItem);
 
 export default cartRouter;
