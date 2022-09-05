@@ -43,7 +43,7 @@ const changeAmount: ControllerType = async (req, res, next) => {
         },
       },
     );
-    console.log(newCartItem)
+
     return res.status(StatusCodes.OK).json({ newCartItem });
   } catch (err) {
     next(err);
