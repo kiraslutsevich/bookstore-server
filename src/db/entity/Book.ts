@@ -14,6 +14,7 @@ import addPath from '../../utils/addPath';
 import { CartItem } from './CartItem';
 import { Genre } from './Genre';
 import { Rating } from './Rating';
+import { User } from './User';
 
 @Entity()
 export class Book {
@@ -98,10 +99,8 @@ export class Book {
   @JoinColumn()
   cartItems: CartItem[];
 
-  // @ManyToMany(() => User, (User) => User.favorites, {
-  //   cascade: true,
-  // })
-  // users: User[];
+  @ManyToMany(() => User, (User) => User.favorites)
+  users: User[];
 
   @AfterLoad()
   addDataForCover() {

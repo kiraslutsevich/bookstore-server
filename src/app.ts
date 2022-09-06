@@ -10,6 +10,7 @@ import errorHandler from './middlewars/errorHandler';
 import type from './type';
 import config from './config';
 import genresRouter from './routes/genresRouter';
+import favoritesRouter from './routes/favoritesRouter';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/auth', authRouter);
 app.use('/books', booksRouter);
 app.use('/genres', genresRouter);
 app.use('/cart', cartRouter);
+app.use('/favorites', favoritesRouter);
 app.use(errorHandler);
 
 export default app;

@@ -26,7 +26,6 @@ const getAllGenres: ControllerType = async (req, res, next) => {
     }
     return res.status(StatusCodes.OK).json(genres);
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };

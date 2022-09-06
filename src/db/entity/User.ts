@@ -8,7 +8,7 @@ import {
   AfterLoad,
   OneToMany,
   JoinTable,
-  JoinColumn,
+  ManyToMany,
 } from 'typeorm';
 import addPath from '../../utils/addPath';
 import { hasher } from '../../utils/hashedPassword';
@@ -71,11 +71,11 @@ export class User {
   @JoinTable()
   cartItems: CartItem[];
 
-  // @ManyToMany(() => Book, (Book) => Book.users, {
-  //   cascade: true,
-  // })
-  // @JoinTable()
-  // favorites: Book[];
+  @ManyToMany(() => Book, (Book) => Book.users, {
+    cascade: true,
+  })
+  @JoinTable()
+  favorites: Book[];
 
   @BeforeInsert()
   hashPassword() {
