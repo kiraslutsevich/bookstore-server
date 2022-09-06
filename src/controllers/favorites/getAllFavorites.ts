@@ -6,7 +6,7 @@ import db from '../../db';
 
 type ControllerType = RequestHandler<EmptyObject, Book[], EmptyObject, EmptyObject>
 
-const addToCart: ControllerType = async (req, res, next) => {
+const getAllFavorites: ControllerType = async (req, res, next) => {
   try {
     const user = await db.user.findOne({
       relations: {
@@ -23,4 +23,4 @@ const addToCart: ControllerType = async (req, res, next) => {
   }
 };
 
-export default addToCart;
+export default getAllFavorites;

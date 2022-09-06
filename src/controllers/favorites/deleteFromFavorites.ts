@@ -4,11 +4,11 @@ import { Book } from 'src/db/entity/Book';
 import type { EmptyObject } from '../../utils/types';
 import db from '../../db';
 
-type ReqBody = {
-  id: number;
+type ReqParams = {
+  id: string;
 };
 
-type ControllerType = RequestHandler<EmptyObject, Book[], ReqBody, EmptyObject>
+type ControllerType = RequestHandler<ReqParams, Book[], EmptyObject, EmptyObject>
 
 const deleteFromFavorites: ControllerType = async (req, res, next) => {
   try {
@@ -21,7 +21,7 @@ const deleteFromFavorites: ControllerType = async (req, res, next) => {
       },
     });
 
-    user.favorites = user.favorites.filter((book) => book.id !== +req.body.id);
+    user.favorites = user.favorites.filter((book) => book.id !== +req.params.id);
     await db.user.save(user);
 
     return res.sendStatus(StatusCodes.NO_CONTENT);

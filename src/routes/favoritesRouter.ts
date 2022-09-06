@@ -6,8 +6,8 @@ import deleteFromFavorites from '../controllers/favorites/deleteFromFavorites';
 
 const favoritesRouter: Router = express.Router();
 
-favoritesRouter.post('/', checkAuth, addToFavorites);
+favoritesRouter.post('/:id', checkAuth, addToFavorites);
 favoritesRouter.get('/', checkAuth, getAllFavorites);
-favoritesRouter.delete('/', checkAuth, deleteFromFavorites);
+favoritesRouter.delete('/:id', checkAuth, deleteFromFavorites);
 
 export default favoritesRouter;
