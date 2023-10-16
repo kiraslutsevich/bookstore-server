@@ -1,6 +1,7 @@
 Server for bookstore
 
 Stack: node js/express, postgres, typeorm
+
 Steps to run this project:
 
 1. Run `npm i` command
